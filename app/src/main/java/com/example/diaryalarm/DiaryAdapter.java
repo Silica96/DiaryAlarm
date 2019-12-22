@@ -18,7 +18,6 @@ public class DiaryAdapter extends BaseAdapter {
         dcontext = context;
         ddata = data;
         dinflater = LayoutInflater.from(dcontext);
-
     }
 
     @Override
