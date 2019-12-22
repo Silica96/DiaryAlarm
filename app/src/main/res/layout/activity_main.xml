@@ -78,7 +78,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="50sp"
             android:background="@drawable/post_add"
-            android:onClick="clickButton"
+            android:onClick="saveDiary"
             android:stateListAnimator="@null" />
 
         <Button

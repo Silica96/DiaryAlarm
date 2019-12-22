@@ -9,6 +9,7 @@ import android.view.Display;
 
 import androidx.annotation.Nullable;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,11 +32,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public long insertDiary(String diary){
+        SimpleDateFormat date = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
         // db open 기록 용도로 열기
         SQLiteDatabase db = this.getWritableDatabase();
         // insert 할 데이터를 보관하기 ContentValues
         ContentValues values = new ContentValues();
         values.put(Model.COLUMN_NOTE,diary);
+        values.put(Model.COLUMN_DATE,date.format(System.currentTimeMillis()));
         long id = db.insert(Model.TABLE_NAME, null, values);
         db.close();
         return id;
@@ -54,7 +57,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // 항목 선택했을때 자세하게 보여줄 디비
-    public Model getNote(long id) {
+    public Model getDiary(long id) {
         // db 오픈
         SQLiteDatabase db = this.getReadableDatabase();
         // select 실행하고 그 결과를 커서가 가리키도록 함

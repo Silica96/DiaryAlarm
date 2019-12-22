@@ -9,23 +9,33 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.diaryalarm.Database.DatabaseHelper;
+import com.example.diaryalarm.Database.Model;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
+    private DatabaseHelper db;
+    private DiaryAdapter mAdapter;
+    private List<Model> modelList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +57,10 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.list);
 
-        System.out.println("1");
+        db = new DatabaseHelper(this);
 
+
+        // 알람 구현
         SharedPreferences sharedPreferences = getSharedPreferences("daily alarm", MODE_PRIVATE);
         long millis = sharedPreferences.getLong("nextNotifyTime", Calendar.getInstance().getTimeInMillis());
 
@@ -180,6 +192,28 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
+    }
+
+    public void saveDiary(View v){
+        TextView context = findViewById(R.id.diary);
+        if (TextUtils.isEmpty(context.getText().toString())){
+            Toast.makeText(MainActivity.this, "Enter note!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // db에 새로운 노트를 insert한 다음 추가된 노트를 읽어와서 Note객체를 생성 하기
+        System.out.println(context.getText().toString());
+        long id = db.insertDiary(context.getText().toString());
+//        Model diary = db.getDiary(id);
+//
+//        if (diary != null) {
+//            // adding new note to array list at 0 position
+//            modelList.add(0, diary);
+//
+//            // refreshing the list
+//            mAdapter.notifyDataSetChanged();
+//
+//        }
     }
 
 }
