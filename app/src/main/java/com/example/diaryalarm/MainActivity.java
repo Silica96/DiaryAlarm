@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         switch (id){
-            case R.id.home: startActivity(new Intent(getApplicationContext(),DiaryListActivity.class)); break;
+            case android.R.id.home: startActivity(new Intent(getApplicationContext(),DiaryListActivity.class)); break;
             case R.id.action_setting: startActivity(new Intent(getApplicationContext(),SettingActivity.class)); break;
         }
         return super.onOptionsItemSelected(item);
