@@ -45,11 +45,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public long insertDiary(String diary, byte[] img){
+        SimpleDateFormat date = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
         // db open 기록 용도로 열기
         SQLiteDatabase db = this.getWritableDatabase();
         // insert 할 데이터를 보관하기 ContentValues
         ContentValues values = new ContentValues();
         values.put(Model.COLUMN_NOTE,diary);
+        values.put(Model.COLUMN_DATE,date.format(System.currentTimeMillis()));
         values.put(Model.COLUMN_IMAGE, img);
         long id = db.insert(Model.TABLE_NAME, null, values);
         db.close();

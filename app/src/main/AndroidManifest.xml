@@ -3,6 +3,10 @@
     package="com.example.diaryalarm">
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -29,6 +33,7 @@
         </receiver>
 
         <receiver android:name=".AlarmReceiver" />
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
 
     </application>
 

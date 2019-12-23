@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Diary Alarm</string>
+    <string name="dialog_fragment_tag_photo_picker">dialog_fragment_photo_picker</string>
+    <string-array name="ui_profile_photo_picker_items">
+        <item>Take picture from camera</item>
+    </string-array>
+    <string name="ui_profile_photo_picker_title">"Take picture"</string>
 </resources>
