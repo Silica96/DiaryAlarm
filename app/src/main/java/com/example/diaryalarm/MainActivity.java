@@ -147,7 +147,6 @@ public class MainActivity extends AppCompatActivity {
 //        if (diary != null) {
 //            // adding new note to array list at 0 position
 //            modelList.add(0, diary);
-//
 //            // refreshing the list
 //            mAdapter.notifyDataSetChanged();
 //

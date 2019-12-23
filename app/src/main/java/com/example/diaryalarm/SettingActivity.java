@@ -12,11 +12,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.IdRes;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Random;
 
@@ -27,60 +32,101 @@ public class SettingActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting_main);
 
-        Button button = (Button) findViewById(R.id.button2);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
+        SharedPreferences sharedPreferences = getSharedPreferences("daily alarm", MODE_PRIVATE);
+        long millis = sharedPreferences.getLong("nextNotifyTime", Calendar.getInstance().getTimeInMillis());
 
-                int hour, hour_24, minute;
-                String am_pm;
-                Random rand = new Random();
-                if (Build.VERSION.SDK_INT >= 23 ){
-                    hour_24 = rand.nextInt(24);
-                    minute = rand.nextInt(59);
-                }
-                else{
-                    hour_24 = rand.nextInt(24);
-                    minute = rand.nextInt(59);
-                }
-                if(hour_24 > 12) {
-                    am_pm = "PM";
-                    hour = hour_24 - 12;
-                }
-                else
-                {
-                    hour = hour_24;
-                    am_pm="AM";
-                }
+        Calendar nextNotifyTime = new GregorianCalendar();
+        nextNotifyTime.setTimeInMillis(millis);
 
-                // 현재 지정된 시간으로 알람 시간 설정
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(System.currentTimeMillis());
-                calendar.set(Calendar.HOUR_OF_DAY, hour_24);
-                calendar.set(Calendar.MINUTE, minute);
-                calendar.set(Calendar.SECOND, 0);
+        Date nextDate = nextNotifyTime.getTime();
+        String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 a hh시 mm분 ", Locale.getDefault()).format(nextDate);
+        TextView tv = findViewById(R.id.textView4);
+        tv.setText("다음 알람은 " + date_text + "으로 알람이 설정되었습니다!");
 
-                // 이미 지난 시간을 지정했다면 다음날 같은 시간으로 설정
-                if (calendar.before(Calendar.getInstance())) {
-                    calendar.add(Calendar.DATE, 1);
-                }
-
-                Date currentDateTime = calendar.getTime();
-                String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분 ", Locale.getDefault()).format(currentDateTime);
-                Toast.makeText(getApplicationContext(),date_text + "으로 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
-                System.out.println(date_text);
-                System.out.println();
-
-                //  Preference에 설정한 값 저장
-                SharedPreferences.Editor editor = getSharedPreferences("daily alarm", MODE_PRIVATE).edit();
-                editor.putLong("nextNotifyTime", (long)calendar.getTimeInMillis());
-                editor.apply();
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.settime);
+        radioGroup.setOnCheckedChangeListener(radioGroupButtonChangeListener);
 
 
-                diaryNotification(calendar);
+
+    }
+
+    RadioGroup.OnCheckedChangeListener radioGroupButtonChangeListener = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
+            if(i == R.id.radioButton4){
+                clickButton(1);
+            } else if(i == R.id.radioButton5) {
+                clickButton(2);
+            } else if(i == R.id.radioButton6) {
+                clickButton(3);
+            } else if(i == R.id.radioButton7) {
+                clickButton(4);
+            }   else if(i == R.id.radioButton8) {
+                clickButton(4);
             }
+        }
+    };
 
-        });
+    public void clickButton(int time){
+        int hour_24, minute, begin = 0, end = 24;
+
+        switch (time) {
+            case 1:
+                begin = 7;
+                end = 17;
+                break;
+            case 2:
+                begin = 8;
+                end = 18;
+                break;
+            case 3:
+                begin = 9;
+                end = 19;
+                break;
+            case 4:
+                begin = 10;
+                end = 20;
+                break;
+            case 5:
+                break;
+        }
+
+        Random rand = new Random();
+        if (Build.VERSION.SDK_INT >= 23 ){
+            hour_24 = rand.nextInt(end) + begin;
+            minute = rand.nextInt(59);
+        }
+        else{
+            hour_24 = rand.nextInt(end) + begin;
+            minute = rand.nextInt(59);
+        }
+
+        // 현재 지정된 시간으로 알람 시간 설정
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, hour_24);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, 0);
+
+        // 이미 지난 시간을 지정했다면 다음날 같은 시간으로 설정
+        if (calendar.before(Calendar.getInstance())) {
+            calendar.add(Calendar.DATE, 1);
+        }
+
+        Date currentDateTime = calendar.getTime();
+        String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분 ", Locale.getDefault()).format(currentDateTime);
+        TextView tv = findViewById(R.id.textView4);
+        tv.setText("다음 알람은 " + date_text + "으로 알람이 설정되었습니다!");
+        System.out.println(date_text);
+        System.out.println();
+
+        //  Preference에 설정한 값 저장
+        SharedPreferences.Editor editor = getSharedPreferences("daily alarm", MODE_PRIVATE).edit();
+        editor.putLong("nextNotifyTime", (long)calendar.getTimeInMillis());
+        editor.apply();
+
+
+        diaryNotification(calendar);
     }
 
 
