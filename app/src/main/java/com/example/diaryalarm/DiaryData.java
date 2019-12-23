@@ -5,9 +5,9 @@ public class DiaryData {
     private String diary_title;
     private String content;
 
-    public DiaryData(int image, String dTitle, String content) {
+    public DiaryData(int image, String diary_title, String content) {
         this.image = image;
-        this.diary_title = dTitle;
+        this.diary_title = diary_title;
         this.content = content;
     }
 
