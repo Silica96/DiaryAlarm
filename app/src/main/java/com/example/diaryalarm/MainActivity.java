@@ -41,6 +41,7 @@ import com.example.diaryalarm.Database.Model;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -53,7 +54,7 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     private DatabaseHelper db;
-    private DiaryAdapter mAdapter;
+
     private List<Model> modelList = new ArrayList<>();
     private Uri mImageCaptureUri;
     private ImageView mImageView;
@@ -98,8 +99,6 @@ public class MainActivity extends AppCompatActivity {
         mImageView = findViewById(R.id.imageView);
         checkPermissions();
 
-
-
     }
 
     public void clickButton(View v){
@@ -114,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         switch (id){
-            case android.R.id.home: startActivity(new Intent(getApplicationContext(),DiaryListActivity.class)); break;
+            case android.R.id.home: startActivity(new Intent(getApplicationContext(),DiaryActivity.class)); break;
             case R.id.action_setting: startActivity(new Intent(getApplicationContext(),SettingActivity.class)); break;
         }
         return super.onOptionsItemSelected(item);
@@ -141,16 +140,7 @@ public class MainActivity extends AppCompatActivity {
             imgByte = DbBitmapUtility.getBytes(img);
         }
         System.out.println(context.getText().toString());
-        long id = db.insertDiary(context.getText().toString(),imgByte);
-//        Model diary = db.getDiary(id);
-//
-//        if (diary != null) {
-//            // adding new note to array list at 0 position
-//            modelList.add(0, diary);
-//            // refreshing the list
-//            mAdapter.notifyDataSetChanged();
-//
-//        }
+        db.insertDiary(context.getText().toString(),imgByte);
     }
 
     private void checkPermissions() {

@@ -58,25 +58,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return id;
     }
 
-    // 항목 선택했을때 자세하게 보여줄 디비
-    public Model getDiary(long id) {
-        // db 오픈
-        SQLiteDatabase db = this.getReadableDatabase();
-        // select 실행하고 그 결과를 커서가 가리키도록 함
-        Cursor cursor = db.query(Model.TABLE_NAME,
-                new String[]{Model.COLUMN_ID, Model.COLUMN_NOTE, Model.COLUMN_IMAGE},
-                Model.COLUMN_ID + "=?",new String[]{String.valueOf(id)},null,null,null, null);
-        if(cursor != null) cursor.moveToFirst();
-        Model diary = new Model(
-                cursor.getInt(cursor.getColumnIndex(Model.COLUMN_ID)),
-                cursor.getString(cursor.getColumnIndex(Model.COLUMN_NOTE)),
-                cursor.getInt(cursor.getColumnIndex(Model.COLUMN_DATE)),
-                cursor.getBlob(cursor.getColumnIndex(Model.COLUMN_IMAGE))
-        );
-        cursor.close();
-        db.close();
-        return diary;
-    }
     // 모든 항목 가져와서 리스트로 보여줄 디비
 
     public List<Model> getAllNotes() {
@@ -92,7 +73,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Model diary = new Model(
                         cursor.getInt(cursor.getColumnIndex(Model.COLUMN_ID)),
                         cursor.getString(cursor.getColumnIndex(Model.COLUMN_NOTE)),
-                        cursor.getInt(cursor.getColumnIndex(Model.COLUMN_DATE)),
+                        cursor.getString(cursor.getColumnIndex(Model.COLUMN_DATE)),
                         cursor.getBlob(cursor.getColumnIndex(Model.COLUMN_IMAGE))
                 );
                 diarys.add(diary);

@@ -13,10 +13,10 @@ public class Model {
 
     private int id;
     private String note;
-    private int date;
+    private String date;
     private byte[] image;
 
-    public Model(int id, String note, int date, byte[] image) {
+    public Model(int id, String note, String date, byte[] image) {
         this.id = id;
         this.note = note;
         this.date = date;
@@ -27,7 +27,39 @@ public class Model {
             "CREATE TABLE " + TABLE_NAME + "("
                     + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + COLUMN_NOTE + " TEXT,"
-                    + COLUMN_DATE + " INTEGER DEFAULT 0,"
+                    + COLUMN_DATE + " TEXT DEFAULT 0,"
                     + COLUMN_IMAGE + " BLOB"
                     + ")";
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
 }
