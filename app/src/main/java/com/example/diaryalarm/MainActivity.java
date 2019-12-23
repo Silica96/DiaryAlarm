@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id){
             case android.R.id.home: startActivity(new Intent(getApplicationContext(),DiaryActivity.class)); break;
-            case R.id.action_setting: startActivity(new Intent(getApplicationContext(),SettingActivity.class)); break;
+            case R.id.action_setting: startActivity(new Intent(getApplicationContext(),SettingMenuActivity.class)); break;
         }
         return super.onOptionsItemSelected(item);
     }

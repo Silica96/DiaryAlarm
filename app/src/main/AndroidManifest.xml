@@ -24,6 +24,8 @@
         </activity>
         <activity android:name=".SettingActivity"></activity>
         <activity android:name=".DiaryActivity"></activity>
+        <activity android:name=".SettingMenuActivity"></activity>
+        <activity android:name=".HelpActivity"></activity>
 
         <receiver android:name=".DeviceBootReceiver"
             android:enabled="false">
